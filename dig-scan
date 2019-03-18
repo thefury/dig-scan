@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+set -eu
+
+DOMAIN=${1:-}
+COMMON_SUBDOMAINS="www mail mx a.mx smtp pop imap blog en ftp ssh login api m vpn ns ns1 ns2 ns3 ns4 email admin vps d p b dev app webmail shop portal"
+RECORD_TYPES="SOA A AAAA CNAME TXT MX NS PTR"
+
+dig_results () {
+  result=$(dig +short $1 $2)
+
+  if [[ $result != "" ]]; then
+    echo $2 $1: $result
+  fi
+}
+
+if [[ $DOMAIN == "" ]]; then
+  echo "usage: dig-scan <DOMAIN>"
+  exit 1
+fi
+
+for t in $RECORD_TYPES; do
+  dig_results $t $DOMAIN
+done
+
+for d in $COMMON_SUBDOMAINS; do
+  for t in $RECORD_TYPES; do
+    dig_results $t $d.$DOMAIN
+  done
+done
