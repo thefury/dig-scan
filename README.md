@@ -3,7 +3,7 @@
 ## Overview
 
 `dig-scan` performs a number of digs against all DNS record types (A, CNAME, _etc_) and a number
-of wel known, common, sub-domains.
+of common sub-domains.
 
 ## Usage
 
